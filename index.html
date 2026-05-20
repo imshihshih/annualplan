@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>年度工作規劃儀表板</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#404040',    // 深灰
+                            orange: '#FF801E',  // 暖陽橘
+                            light: '#D6D8D9',   // 淡灰
+                            bg: '#F8F9FA'       // 極淺灰背景
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #F8F9FA;
+        }
+        /* 自訂滾動條 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
+</head>
+<body class="text-brand-dark min-h-screen flex flex-col">
+
+    <!-- 頂部導航欄 -->
+    <header class="bg-[#404040] text-white shadow-md px-6 py-4 flex flex-col sm:flex-row justify-between items-center border-b-4 border-[#FF801E]">
+        <div class="flex items-center space-x-3 mb-4 sm:mb-0">
+            <div class="bg-[#FF801E] text-white p-2.5 rounded-lg flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-calendar-check text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl sm:text-2xl font-black tracking-wide">年度工作重點規劃</h1>
+                <p class="text-xs text-brand-light font-light mt-0.5">Annual Strategic Operations & Activities Blueprint</p>
+            </div>
+        </div>
+        
+        <!-- 視角切換按鈕 -->
+        <div class="bg-[#2D2D2D] p-1 rounded-xl flex items-center space-x-1 border border-[#505050]">
+            <button id="btn-timeline" onclick="switchView('timeline')" class="px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center space-x-2 bg-[#FF801E] text-white shadow">
+                <i class="fa-solid fa-timeline"></i>
+                <span>年度時間軸</span>
+            </button>
+            <button id="btn-category" onclick="switchView('category')" class="px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center space-x-2 text-gray-300 hover:text-white">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>類別看板</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 主體內容 -->
+    <main class="flex-grow p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto w-full">
+        
+        <!-- 數據統計卡片 (摘要資訊) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-l-4 border-l-[#404040] flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 font-medium">年度大型活動</p>
+                    <p class="text-2xl font-bold mt-1 text-[#404040]">14 <span class="text-sm font-normal text-gray-400">大執行結點</span></p>
+                </div>
+                <div class="w-12 h-12 rounded-xl bg-gray-100 text-[#404040] flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-l-4 border-l-[#FF801E] flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 font-medium">新人訓練主題</p>
+                    <p class="text-2xl font-bold mt-1 text-[#404040]">1 <span class="text-sm font-normal text-gray-400">大重點</span></p>
+                </div>
+                <div class="w-12 h-12 rounded-xl bg-orange-50 text-[#FF801E] flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-l-4 border-l-[#FF801E] flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 font-medium">團隊小活動</p>
+                    <p class="text-2xl font-bold mt-1 text-[#404040]">8 <span class="text-sm font-normal text-gray-400">項趣味互動</span></p>
+                </div>
+                <div class="w-12 h-12 rounded-xl bg-orange-50 text-[#FF801E] flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-face-smile"></i>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-l-4 border-l-gray-300 opacity-75 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-400 font-medium">外部資源培訓 (規劃中)</p>
+                    <p class="text-2xl font-bold mt-1 text-gray-500">3 <span class="text-sm font-normal text-gray-400">梯次課程</span></p>
+                </div>
+                <div class="w-12 h-12 rounded-xl bg-gray-50 text-gray-400 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 視角一：年度時間軸表格 ==================== -->
+        <div id="view-timeline" class="bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden transition-all duration-300">
+            <!-- 表格操作說明 -->
+            <div class="p-5 border-b border-gray-100 bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                <div>
+                    <h2 class="font-bold text-lg text-gray-800 flex items-center space-x-2">
+                        <span class="w-2 h-5 bg-[#FF801E] rounded-full inline-block"></span>
+                        <span>2026/06-2027/01月度工作表</span>
+                    </h2>
+                    <p class="text-[11px] text-gray-400 font-medium mt-0.5 tracking-wide uppercase">Monthly Operational & Activity Chart: 2026/06 - 2027/01</p>
+                </div>
+            </div>
+
+            <!-- 響應式表格容器 -->
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[1000px] border-collapse table-fixed">
+                    <thead>
+                        <tr class="bg-[#404040] text-white">
+                            <th class="w-[14%] p-4 text-left text-sm font-bold tracking-wider border-r border-[#505050]">工作主題</th>
+                            <th class="w-[10.75%] p-4 text-center text-sm font-bold tracking-wider border-r border-[#505050]">6月 (JUN)</th>
+                            <th class="w-[10.75%] p-4 text-center text-sm font-bold tracking-wider border-r border-[#505050]">7月 (JUL)</th>
+                            <th class="w-[10.75%] p-4 text-center text-sm font-bold tracking-wider border-r border-[#505050]">8月 (AUG)</th>
+                            <th class="w-[10.75%] p-4 text-center text-sm font-bold tracking-wider border-r border-[#505050]">9月 (SEP)</th>
+                            <th class="w-[10.75%] p-4 text-center text-sm font-bold tracking-wider border-r border-[#505050]">10月 (OCT)</th>
+                            <th class="w-[10.75%] p-4 text-center text-sm font-bold tracking-wider border-r border-[#505050]">11月 (NOV)</th>
+                            <th class="w-[10.75%] p-4 text-center text-sm font-bold tracking-wider border-r border-[#505050]">12月 (DEC)</th>
+                            <th class="w-[10.75%] p-4 text-center text-sm font-bold tracking-wider">1月 (JAN)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        
+                        <!-- 1. 年度活動 -->
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="p-4 border-r border-gray-100 align-middle font-bold text-sm">年度活動</td>
+                            <!-- JUN -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="bg-gray-100 border border-gray-200 p-2.5 rounded-xl hover:shadow-sm transition-all">
+                                    <p class="text-xs font-bold text-gray-700 mb-1">🥮 中秋禮盒</p>
+                                    <p class="text-[11px] text-gray-500">廠商遴選與 Survey</p>
+                                </div>
+                            </td>
+                            <!-- JUL -->
+                            <td class="p-3 border-r border-gray-100 align-top space-y-2">
+                                <div class="bg-gray-100 border border-gray-200 p-2 rounded-xl">
+                                    <p class="text-xs font-bold text-gray-700 mb-1">🥮 中秋禮盒</p>
+                                    <p class="text-[11px] text-gray-500">數量確認與下訂</p>
+                                </div>
+                                <div class="bg-orange-50/70 border border-orange-200/50 p-2 rounded-xl">
+                                    <p class="text-xs font-bold text-orange-900 mb-1">🏕️ 員工團建</p>
+                                    <p class="text-[11px] text-orange-750">方案及地點評估</p>
+                                </div>
+                            </td>
+                            <!-- AUG -->
+                            <td class="p-3 border-r border-gray-100 align-top space-y-2">
+                                <div class="bg-amber-50 border border-amber-200 p-2 rounded-xl">
+                                    <p class="text-xs font-bold text-amber-900 mb-0.5">🕯️ 中元普渡</p>
+                                    <p class="text-[10px] bg-amber-200 text-amber-950 font-bold px-1.5 py-0.5 rounded inline-block">8/27 當天</p>
+                                </div>
+                                <div class="bg-orange-50/70 border border-orange-200/50 p-2 rounded-xl">
+                                    <p class="text-xs font-bold text-orange-900 mb-1">🏕️ 員工團建</p>
+                                    <p class="text-[11px] text-orange-750">方案確認與預定</p>
+                                </div>
+                                <div class="bg-gray-100 border border-gray-200 p-2 rounded-xl">
+                                    <p class="text-xs font-bold text-gray-700 mb-1">🎉 尾牙籌辦</p>
+                                    <p class="text-[11px] text-gray-500">場地 Survey 與諮詢</p>
+                                </div>
+                            </td>
+                            <!-- SEP -->
+                            <td class="p-3 border-r border-gray-100 align-top space-y-2">
+                                <div class="bg-amber-50 border border-amber-200 p-2.5 rounded-xl text-center">
+                                    <p class="text-xs font-bold text-amber-900 mb-1">🥮 中秋禮盒月初到貨</p>
+                                    <p class="text-[10px] bg-amber-200 text-amber-950 font-bold px-1.5 py-0.5 rounded inline-block">9/25 中秋節</p>
+                                </div>
+                                <div class="bg-gray-100 border border-gray-200 p-2 rounded-xl">
+                                    <p class="text-xs font-bold text-gray-700 mb-1">📅 企業周邊</p>
+                                    <p class="text-[11px] text-gray-500">筆記本與桌曆 Survey</p>
+                                </div>
+                                <div class="bg-gray-100 border border-gray-200 p-2 rounded-xl">
+                                    <p class="text-xs font-bold text-gray-700 mb-1">🎉 尾牙籌辦</p>
+                                    <p class="text-[11px] text-gray-500">尾牙場地確認下訂</p>
+                                </div>
+                            </td>
+                            <!-- OCT -->
+                            <td class="p-3 border-r border-gray-100 align-top space-y-2">
+                                <div class="bg-gray-100 border border-gray-200 p-2 rounded-xl">
+                                    <p class="text-xs font-bold text-gray-700 mb-1">📅 企業周邊</p>
+                                    <p class="text-[11px] text-gray-500">筆記本桌曆下訂</p>
+                                </div>
+                                <div class="bg-orange-50/70 border border-orange-200/50 p-2.5 rounded-xl">
+                                    <p class="text-xs font-bold text-orange-950 mb-1">🏕️ 員工團建</p>
+                                    <p class="text-[11px] text-orange-750 font-medium">團建活動正式執行</p>
+                                </div>
+                            </td>
+                            <!-- NOV -->
+                            <td class="p-3 border-r border-gray-100 align-top space-y-2">
+                                <div class="bg-gray-100 border border-gray-200 p-2 rounded-xl">
+                                    <p class="text-xs font-bold text-gray-700 mb-1">📅 企業周邊</p>
+                                    <p class="text-[11px] text-gray-500">筆記本桌曆到貨</p>
+                                </div>
+                            </td>
+                            <!-- DEC -->
+                            <td class="p-3 border-r border-gray-100 align-top space-y-2">
+                                <div class="bg-orange-50/70 border border-orange-200/50 p-2.5 rounded-xl hover:shadow-sm transition-all text-center">
+                                    <p class="text-xs font-bold text-orange-950 mb-1">📅 企業周邊</p>
+                                    <p class="text-[11px] text-gray-500">筆記本桌曆發放</p>
+                                </div>
+                                <div class="bg-gray-100 border border-gray-200 p-2 rounded-xl hover:shadow-sm transition-all text-center">
+                                    <p class="text-xs font-bold text-gray-800 mb-1">🎉 尾牙籌辦</p>
+                                    <p class="text-[11px] text-gray-600">尾牙議程規劃</p>
+                                </div>
+                            </td>
+                            <!-- JAN -->
+                            <td class="p-3 align-top">
+                                <div class="bg-orange-50/70 border border-orange-200/50 p-2.5 rounded-xl hover:shadow-sm transition-all text-center">
+                                    <p class="text-xs font-bold text-orange-950 mb-1">🎉 歲末聯歡</p>
+                                    <p class="text-[11px] text-gray-500">尾牙盛宴正式執行</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- 2. 新人訓練 -->
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="p-4 border-r border-gray-100 align-middle font-bold text-sm">新人訓練</td>
+                            <!-- JUN -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="bg-orange-50/70 border border-orange-200/50 p-2.5 rounded-xl hover:shadow-sm transition-all">
+                                    <div class="flex items-center space-x-1.5 mb-1">
+                                        <i class="fa-solid fa-book-open text-orange-700 text-[11px]"></i>
+                                        <span class="text-xs font-bold text-orange-900">新人手冊</span>
+                                    </div>
+                                    <p class="text-xs text-gray-600 pl-4">公司資訊建置</p>
+                                </div>
+                            </td>
+                            <td class="p-3 border-r border-gray-100 bg-gray-50/30 text-center text-xs text-gray-300 italic align-middle">-</td>
+                            <td class="p-3 border-r border-gray-100 bg-gray-50/30 text-center text-xs text-gray-300 italic align-middle">-</td>
+                            <td class="p-3 border-r border-gray-100 bg-gray-50/30 text-center text-xs text-gray-300 italic align-middle">-</td>
+                            <td class="p-3 border-r border-gray-100 bg-gray-50/30 text-center text-xs text-gray-300 italic align-middle">-</td>
+                            <td class="p-3 border-r border-gray-100 bg-gray-50/30 text-center text-xs text-gray-300 italic align-middle">-</td>
+                            <td class="p-3 border-r border-gray-100 bg-gray-50/30 text-center text-xs text-gray-300 italic align-middle">-</td>
+                            <td class="p-3 bg-gray-50/30 text-center text-xs text-gray-300 italic align-middle">-</td>
+                        </tr>
+
+                        <!-- 3. 小活動 -->
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="p-4 border-r border-gray-100 align-middle font-bold text-sm">小活動</td>
+                            <!-- JUN -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="bg-orange-50/40 border border-orange-100 p-2 rounded-xl">
+                                    <div class="text-xs font-bold text-orange-950 mb-1 flex items-center gap-1">
+                                        <i class="fa-solid fa-utensils text-[#FF801E] text-[10px]"></i> 部門聚餐
+                                    </div>
+                                    <p class="text-[11px] text-gray-600 pl-3.5">聯亞知識王</p>
+                                </div>
+                            </td>
+                            <!-- JUL -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="bg-gray-50 border border-gray-200/60 p-2 rounded-xl">
+                                    <div class="text-xs font-bold text-gray-800 mb-1 flex items-center gap-1">
+                                        <i class="fa-solid fa-bag-shopping text-blue-500 text-[10px]"></i> 普渡零食線上許願板
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- AUG -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="bg-orange-50/40 border border-orange-100 p-2 rounded-xl">
+                                    <div class="text-xs font-bold text-orange-950 mb-1 flex items-center gap-1"><i class="fa-solid fa-heart text-red-500 text-[10px]"></i> 七夕感謝月</div>
+                                    <p class="text-[11px] text-gray-500 pl-1 leading-relaxed">工作感謝/鼓勵<br><span class="text-gray-400">(使用電子牆平台)</span></p>
+                                </div>
+                            </td>
+                            <!-- SEP -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="bg-gray-50 border border-gray-200/60 p-2.5 rounded-xl hover:shadow-sm transition-all text-center">
+                                    <i class="fa-solid fa-people-carry-box text-orange-400 text-lg mb-1"></i>
+                                    <p class="text-xs font-bold text-gray-700">互動活動(內容待定)</p>
+                                </div>
+                            </td>
+                            <!-- OCT -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="bg-orange-50/40 border border-orange-100 p-2 rounded-xl">
+                                    <div class="text-xs font-bold text-orange-950 mb-1 flex items-center gap-1">
+                                        <i class="fa-solid fa-ghost text-orange-600 text-[10px]"></i> 萬聖節
+                                    </div>
+                                    <p class="text-[11px] text-gray-600 pl-4">節慶主題佈置<br>& 與糖果點心補給</p>
+                                </div>
+                            </td>
+                            <!-- NOV -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="bg-gray-50 border border-gray-200/60 p-2.5 rounded-xl hover:shadow-sm transition-all text-center">
+                                    <i class="fa-solid fa-people-carry-box text-orange-400 text-lg mb-1"></i>
+                                    <p class="text-xs font-bold text-gray-700">互動活動(內容待定)</p>
+                                </div>
+                            </td>
+                            <!-- DEC -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="bg-orange-50/40 border border-orange-100 p-2 rounded-xl">
+                                    <div class="text-xs font-bold text-orange-950 mb-1 flex items-center gap-1"><i class="fa-solid fa-gift text-red-500 text-[10px]"></i> 聖誕佳節</div>
+                                    <p class="text-[11px] text-gray-600 pl-1">聖誕佈置<br>& 閒置禮物交換</p>
+                                </div>
+                            </td>
+                            <!-- JAN -->
+                            <td class="p-3 align-top">
+                                <div class="bg-gray-50 border border-gray-200/60 p-2 rounded-xl">
+                                    <div class="text-xs font-bold text-gray-800 mb-1 flex items-center gap-1"><i class="fa-solid fa-feather text-amber-600 text-[10px]"></i> 農曆新年</div>
+                                    <p class="text-[11px] text-gray-600 pl-1">迎春揮毫春聯活動<br>傳統年味氣氛營造</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- 4. 外部資源 (未確認/淡色版) -->
+                        <tr class="hover:bg-gray-100/30 transition-colors opacity-65 saturate-75">
+                            <td class="p-4 border-r border-gray-100 align-middle bg-gray-50/30">
+                                <div class="flex items-center space-x-2.5">
+                                    <span class="w-8 h-8 rounded-lg bg-gray-100 text-gray-400 flex items-center justify-center text-sm font-bold border border-dashed border-gray-300"><i class="fa-solid fa-graduation-cap"></i></span>
+                                    <div>
+                                        <div class="flex items-center space-x-1">
+                                            <p class="font-bold text-gray-500 text-sm">外部資源</p>
+                                            <span class="text-[9px] bg-gray-200 text-gray-600 px-1 rounded">未確認</span>
+                                        </div>
+                                        <p class="text-[10px] text-gray-400">External Training</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- JUN -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="border border-dashed border-gray-300 bg-white p-2 rounded-xl hover:shadow-none transition-all">
+                                    <div class="flex items-center space-x-1 mb-1"><span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span><span class="text-[11px] font-bold text-gray-500">規劃中</span></div>
+                                    <p class="text-[11px] text-gray-400 pl-1">討論培訓內容</p>
+                                </div>
+                            </td>
+                            <!-- JUL -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="border border-dashed border-gray-300 bg-white p-2.5 rounded-xl hover:shadow-none transition-all text-center">
+                                    <span class="inline-block bg-gray-300 text-gray-600 text-[10px] font-extrabold px-2 py-0.5 rounded-md mb-1.5">開課 1</span>
+                                    <p class="text-[11px] font-bold text-gray-400">第一梯次 (暫定)</p>
+                                </div>
+                            </td>
+                            <!-- AUG -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="border border-dashed border-gray-300 bg-white p-2.5 rounded-xl hover:shadow-none transition-all text-center">
+                                    <span class="inline-block bg-gray-300 text-gray-600 text-[10px] font-extrabold px-2 py-0.5 rounded-md mb-1.5">開課 2</span>
+                                    <p class="text-[11px] font-bold text-gray-400">第二梯次 (暫定)</p>
+                                </div>
+                            </td>
+                            <!-- SEP -->
+                            <td class="p-3 border-r border-gray-100 align-top">
+                                <div class="border border-dashed border-gray-300 bg-white p-2.5 rounded-xl hover:shadow-none transition-all text-center">
+                                    <span class="inline-block bg-gray-300 text-gray-600 text-[10px] font-extrabold px-2 py-0.5 rounded-md mb-1.5">開課 3</span>
+                                    <p class="text-[11px] font-bold text-gray-400">第三梯次 (暫定)</p>
+                                </div>
+                            </td>
+                            <!-- OCT -->
+                            <td class="p-3 border-r border-gray-100 bg-gray-50/20 text-center text-xs text-gray-300 italic align-middle">-</td>
+                            <!-- NOV -->
+                            <td class="p-3 border-r border-gray-100 bg-gray-50/20 text-center text-xs text-gray-300 italic align-middle">-</td>
+                            <!-- DEC -->
+                            <td class="p-3 border-r border-gray-100 bg-gray-50/20 text-center text-xs text-gray-300 italic align-middle">-</td>
+                            <!-- JAN -->
+                            <td class="p-3 bg-gray-50/20 text-center text-xs text-gray-300 italic align-middle">-</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- 表格底部說明 -->
+            <div class="p-4 bg-gray-50 border-t border-gray-100 text-xs text-gray-500 flex flex-col sm:flex-row justify-between items-center gap-2">
+                <div class="flex items-center space-x-4">
+                    <span class="flex items-center space-x-1"><span class="w-3 h-3 rounded bg-orange-100 border border-orange-300 inline-block"></span><span class="text-gray-600 font-medium">高優先專案 / 確定執行</span></span>
+                    <span class="flex items-center space-x-1"><span class="w-3 h-3 rounded bg-gray-50 border border-gray-300 border-dashed inline-block"></span><span class="text-gray-500 font-medium">尚未確認 / 規劃中</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 視角二：分類看版頁面 (預設隱藏) ==================== -->
+        <div id="view-category" class="hidden space-y-6 transition-all duration-300">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- 年度重點專案看板 -->
+                <div class="bg-white rounded-2xl shadow-sm border-t-4 border-[#404040] p-5">
+                    <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-award text-[#404040]"></i>
+                            <h3 class="font-bold text-gray-800">年度重點活動</h3>
+                        </div>
+                        <span class="text-[11px] font-bold bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">主線專案</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-[#404040] text-white p-3 rounded-xl shadow-sm">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-[#FF801E]">🥮 中秋專案</span>
+                                <span class="text-[9px] bg-white/20 text-white px-1.5 py-0.5 rounded">6-9月</span>
+                            </div>
+                            <p class="text-[11px] text-gray-200">6月Survey、7月數量確認下訂、8/27 中元普渡當天、9月月初禮盒到貨、9/25 中秋節</p>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-xl border border-orange-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-orange-950">🏕️ 員工團建</span>
+                                <span class="text-[9px] bg-[#FF801E] text-white px-1.5 py-0.5 rounded">7-10月</span>
+                            </div>
+                            <p class="text-[11px] text-orange-900">7月方案及地點評估、8月方案確認與預定、10月團建方案正式執行</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-gray-800">📅 企業周邊專案</span>
+                                <span class="text-[9px] bg-gray-300 text-gray-800 px-1.5 py-0.5 rounded">9-12月</span>
+                            </div>
+                            <p class="text-[11px] text-gray-500">9月筆記本桌曆Survey、10月確認下訂、11月到貨驗收、12月正式發放</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-gray-800">🎉 歲末尾牙</span>
+                                <span class="text-[9px] bg-gray-300 text-gray-800 px-1.5 py-0.5 rounded">8-1月</span>
+                            </div>
+                            <p class="text-[11px] text-gray-500">8月場地調查諮詢、9月合約簽署確認下訂、12月尾牙議程規劃、1月年終尾牙熱鬧執行</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 新人訓練看板 -->
+                <div class="bg-white rounded-2xl shadow-sm border-t-4 border-[#FF801E] p-5">
+                    <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-users-gear text-[#FF801E]"></i>
+                            <h3 class="font-bold text-gray-800">新人訓練</h3>
+                        </div>
+                        <span class="text-[11px] font-bold bg-orange-50 text-[#FF801E] px-2 py-0.5 rounded-full">Q2 基礎工程</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-100">
+                            <div class="flex items-center space-x-1.5 mb-1">
+                                <i class="fa-solid fa-book-open text-orange-700 text-xs"></i>
+                                <span class="text-xs font-bold text-gray-700">新人手冊</span>
+                            </div>
+                            <p class="text-[11px] text-gray-400 pl-5">公司資訊建置</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 趣味小活動看板 -->
+                <div class="bg-white rounded-2xl shadow-sm border-t-4 border-[#FF801E] p-5">
+                    <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-heart text-[#FF801E]"></i>
+                            <h3 class="font-bold text-gray-800">小活動/凝聚力</h3>
+                        </div>
+                        <span class="text-[11px] font-bold bg-orange-50 text-[#FF801E] px-2 py-0.5 rounded-full">常態性規劃</span>
+                    </div>
+                    <div class="space-y-2 max-h-[400px] overflow-y-auto pr-1">
+                        <div class="p-2.5 bg-orange-50/60 rounded-lg text-xs border border-orange-100">
+                            <span class="font-bold text-orange-950">6月 (部門聚餐)：</span>聯亞知識王競賽
+                        </div>
+                        <div class="p-2.5 bg-gray-50 rounded-lg text-xs">
+                            <span class="font-bold text-gray-800">7月：</span>普渡零食線上許願板活動
+                        </div>
+                        <div class="p-2.5 bg-orange-50/60 rounded-lg text-xs border border-orange-100">
+                            <span class="font-bold text-orange-950">8月：</span>七夕工作感謝與愛心鼓勵電子牆活動
+                        </div>
+                        <div class="p-2.5 bg-gray-50 rounded-lg text-xs">
+                            <span class="font-bold text-gray-800">9月：</span>互動活動(內容待定)
+                        </div>
+                        <div class="p-2.5 bg-orange-50/60 rounded-lg text-xs border border-orange-100">
+                            <span class="font-bold text-orange-950">10月：</span>萬聖節主題佈置、節慶南瓜糖果與點心補給
+                        </div>
+                        <div class="p-2.5 bg-gray-50 rounded-lg text-xs">
+                            <span class="font-bold text-gray-800">11月：</span>互動活動(內容待定)
+                        </div>
+                        <div class="p-2.5 bg-orange-50/60 rounded-lg text-xs border border-orange-100">
+                            <span class="font-bold text-orange-950">12月：</span>聖誕節主題聖誕佈置、閒置禮物交換
+                        </div>
+                        <div class="p-2.5 bg-gray-50 rounded-lg text-xs">
+                            <span class="font-bold text-gray-800">1月：</span>新年新氣象、迎春現場揮毫寫春聯活動
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 外部資源看板 (未確認/淡化版) -->
+                <div class="bg-white rounded-2xl shadow-sm border-t-4 border-gray-300 p-5 opacity-65 border border-dashed border-gray-200">
+                    <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+                        <div class="flex items-center space-x-2 text-gray-400">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <h3 class="font-bold">外部資源 (規劃中)</h3>
+                        </div>
+                        <span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">未確認狀態</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-gray-100/50 p-3 rounded-xl border border-dashed border-gray-300">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-gray-500">培訓內容研議</span>
+                                <span class="text-[9px] bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded font-extrabold">6月</span>
+                            </div>
+                            <p class="text-[11px] text-gray-400">開課前置討論，確認內部培訓期望與教材範疇</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-dashed border-gray-300">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-gray-500">外部師資培訓</span>
+                                <span class="text-[9px] bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded font-extrabold">7-9月</span>
+                            </div>
+                            <ul class="text-[11px] text-gray-400 space-y-1 list-disc list-inside">
+                                <li><strong>7月：</strong>預計開課梯次 1</li>
+                                <li><strong>8月：</strong>預計開課梯次 2</li>
+                                <li><strong>9月：</strong>預計開課梯次 3</li>
+                            </ul>
+                            <div class="mt-2 pt-2 border-t border-dashed border-gray-200 text-[10px] text-amber-600">
+                                ⚠️ 時程可能隨預算與廠商協調有所變動
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 頁腳 footer -->
+    <footer class="bg-[#404040] text-gray-400 text-xs py-5 px-6 mt-12 border-t border-gray-700">
+        <div class="max-w-[1600px] mx-auto flex justify-end items-center">
+            <div class="text-gray-400">
+                <span>製作日期: 2026/05/19，更新日期: 2026/05/19</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 簡單的視角切換 JS 邏輯 -->
+    <script>
+        function switchView(viewName) {
+            const timelineView = document.getElementById('view-timeline');
+            const categoryView = document.getElementById('view-category');
+            const btnTimeline = document.getElementById('btn-timeline');
+            const btnCategory = document.getElementById('btn-category');
+
+            if (viewName === 'timeline') {
+                timelineView.classList.remove('hidden');
+                categoryView.classList.add('hidden');
+                
+                // 按鈕樣式
+                btnTimeline.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center space-x-2 bg-[#FF801E] text-white shadow";
+                btnCategory.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center space-x-2 text-gray-300 hover:text-white";
+            } else {
+                timelineView.classList.add('hidden');
+                categoryView.className = "hidden"; // ensure hidden before removing standard hidden to avoid double rendering issues
+                categoryView.classList.remove('hidden');
+
+                // 按鈕樣式
+                btnTimeline.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center space-x-2 text-gray-300 hover:text-white";
+                btnCategory.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center space-x-2 bg-[#FF801E] text-white shadow";
+            }
+        }
+    </script>
+</body>
+</html>
